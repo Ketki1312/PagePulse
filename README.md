@@ -27,8 +27,7 @@ PagePulse is a Chrome extension that analyzes webpage performance and explains w
 3. Click "Load unpacked"
 4. Select this folder
 
-## 📸 Demo
-(Add screenshots here later)
+
 
 ---
 
