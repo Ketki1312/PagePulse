@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PagePulse</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Loading State -->
+    <div id="loading-state" class="state-screen">
+      <div class="spinner-wrap">
+        <div class="spinner"></div>
+        <p class="loading-text">Analysing page…</p>
+      </div>
+    </div>
+
+    <!-- No Data State -->
+    <div id="nodata-state" class="state-screen hidden">
+      <div class="no-data-wrap">
+        <div class="no-data-icon">📡</div>
+        <p class="no-data-title">No data yet</p>
+        <p class="no-data-sub">Navigate to a webpage and click Refresh to analyse it.</p>
+        <button id="nodata-refresh" class="btn-primary">Refresh &amp; Analyse</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <div class="logo-mark">
+            <span class="pulse-dot"></span>
+            <span class="logo-text">PagePulse</span>
+          </div>
+          <div class="site-info">
+            <span id="site-hostname" class="site-hostname">—</span>
+            <span id="site-protocol" class="protocol-badge">—</span>
+          </div>
+          <div class="load-time-row">
+            <span id="total-load-display" class="load-time-value">—</span>
+            <span class="load-time-label">total load</span>
+          </div>
+          <span id="timestamp-display" class="timestamp">—</span>
+        </div>
+        <div class="header-right">
+          <div class="score-ring-wrap">
+            <svg class="score-ring" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+              <circle class="ring-track" cx="40" cy="40" r="32" />
+              <circle id="score-arc" class="ring-progress" cx="40" cy="40" r="32"
+                stroke-dasharray="201.06"
+                stroke-dashoffset="201.06"
+                transform="rotate(-90 40 40)" />
+            </svg>
+            <div class="score-label">
+              <span id="score-number" class="score-number">—</span>
+              <span class="score-sub">/ 100</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="issues">
+          <span class="tab-icon">⚡</span> Issues
+        </button>
+        <button class="tab-btn" data-tab="breakdown">
+          <span class="tab-icon">📊</span> Breakdown
+        </button>
+        <button class="tab-btn" data-tab="network">
+          <span class="tab-icon">🌐</span> Network
+        </button>
+        <button class="tab-btn" data-tab="about">
+          <span class="tab-icon">ℹ️</span> About
+        </button>
+      </nav>
+
+      <!-- Tab Panels -->
+      <div class="tab-panels">
+
+        <!-- Tab 1: Issues -->
+        <div id="tab-issues" class="tab-panel active">
+          <div id="issues-list"></div>
+          <div id="cn-concepts" class="concepts-section hidden">
+            <p class="concepts-label">CN Concepts Involved</p>
+            <div id="concepts-tags" class="concepts-tags"></div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Breakdown -->
+        <div id="tab-breakdown" class="tab-panel hidden">
+          <div id="metrics-chart" class="metrics-chart"></div>
+          <div class="total-load-banner">
+            <span class="tl-label">Total Page Load</span>
+            <span id="tl-value" class="tl-value">—</span>
+          </div>
+        </div>
+
+        <!-- Tab 3: Network -->
+        <div id="tab-network" class="tab-panel hidden">
+          <div class="network-stats">
+            <div class="stat-card">
+              <span class="stat-icon">🔒</span>
+              <div class="stat-body">
+                <span class="stat-label">Protocol</span>
+                <span id="net-protocol" class="stat-value">—</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">📦</span>
+              <div class="stat-body">
+                <span class="stat-label">Page Size</span>
+                <span id="net-size" class="stat-value">—</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">🔗</span>
+              <div class="stat-body">
+                <span class="stat-label">Resources</span>
+                <span id="net-resources" class="stat-value">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-section">
+            <p class="timeline-label">Network Timeline</p>
+            <div id="network-timeline" class="network-timeline"></div>
+            <div id="timeline-legend" class="timeline-legend"></div>
+          </div>
+        </div>
+
+        <!-- Tab 4: About -->
+        <div id="tab-about" class="tab-panel hidden">
+          <div class="about-content">
+            <div class="about-header">
+              <div class="about-logo">
+                <span class="about-pulse-dot"></span>
+                PagePulse
+              </div>
+              <p class="about-tagline">A Computer Networks diagnostic tool that visualizes the full network journey of a web page load.</p>
+            </div>
+            <div class="about-section">
+              <p class="about-section-title">CN Concepts Covered</p>
+              <div class="about-tags">
+                <span class="about-tag">DNS Resolution</span>
+                <span class="about-tag">TCP 3-Way Handshake</span>
+                <span class="about-tag">TLS Handshake</span>
+                <span class="about-tag">HTTP/1.1 vs HTTP/2 vs HTTP/3</span>
+                <span class="about-tag">Time To First Byte</span>
+                <span class="about-tag">Network Latency</span>
+                <span class="about-tag">Bandwidth &amp; Throughput</span>
+                <span class="about-tag">CDN Architecture</span>
+                <span class="about-tag">Data Compression</span>
+                <span class="about-tag">Application Layer Protocols</span>
+              </div>
+            </div>
+            <div class="about-section">
+              <p class="about-section-title">Built By</p>
+              <p class="about-built">A Computer Networks Project, 2024</p>
+            </div>
+            <div class="about-section">
+              <p class="about-section-title">How It Works</p>
+              <p class="about-desc">PagePulse uses the browser's <code>window.performance.timing</code> API to capture millisecond-precision timestamps for every phase of a page load — from DNS lookup through final render — then benchmarks each phase against real-world thresholds.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <button id="btn-refresh" class="footer-btn btn-refresh">
+          <span>↻</span> Refresh
+        </button>
+        <button id="btn-export" class="footer-btn btn-export">
+          <span>↓</span> Export
+        </button>
+      </footer>
+
+    </div><!-- /#main-content -->
+  </div><!-- /#app -->
+
+  <script src="analyzer.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
